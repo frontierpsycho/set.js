@@ -1,8 +1,9 @@
 const _ = require('lodash');
 
 const { Card, ATTRIBUTES, createRandomCard } = require('./set.js');
+const Board = require('./board.js');
 
-const board = _.map(_.range(12), createRandomCard);
+const board = Board.createRandomBoard(12);
 
 console.log(
   "Board:\n",
