@@ -1,19 +1,13 @@
 const _ = require('lodash');
 
-const ATTRIBUTES = {
-  SHAPE: ['oval', 'diamond', 'squiggle'],
-  COLOUR: ['red', 'purple', 'green'],
-  NUMBER: ['one', 'two', 'three'],
-  SHADING: ['solid', 'striped', 'outlined'],
-};
+const ATTR_NAMES = ['number', 'shading', 'colour', 'shape'];
 
-/* TODO
-export const SHAPE_VALUES = {
-  OVAL: 'oval',
-  DIAMOND: 'diamond',
-  SQUIGGLE: 'squiggle'
+const ATTRIBUTES = {
+  [ATTR_NAMES[0]]: ['one', 'two', 'three'],
+  [ATTR_NAMES[1]]: ['solid', 'striped', 'outlined'],
+  [ATTR_NAMES[2]]: ['red', 'purple', 'green'],
+  [ATTR_NAMES[3]]: ['oval', 'diamond', 'squiggle'],
 };
-*/
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -21,10 +15,10 @@ function getRandomInt(max) {
 
 function createRandomCard() {
   return new Card(
-    ATTRIBUTES.NUMBER[getRandomInt(3)],
-    ATTRIBUTES.SHADING[getRandomInt(3)],
-    ATTRIBUTES.COLOUR[getRandomInt(3)],
-    ATTRIBUTES.SHAPE[getRandomInt(3)],
+    ATTRIBUTES.number[getRandomInt(3)],
+    ATTRIBUTES.shading[getRandomInt(3)],
+    ATTRIBUTES.colour[getRandomInt(3)],
+    ATTRIBUTES.shape[getRandomInt(3)],
   );
 };
 
@@ -35,25 +29,25 @@ class Card {
     colour,
     shape,
   ) {
-    if (_.includes(ATTRIBUTES.SHAPE, shape)) {
+    if (_.includes(ATTRIBUTES.shape, shape)) {
       this.shape = shape;
     } else {
       throw new Error(`shape must be one of ${JSON.stringify(ATTRIBUTES.SHAPE)}`);
     }
 
-    if (_.includes(ATTRIBUTES.COLOUR, colour)) {
+    if (_.includes(ATTRIBUTES.colour, colour)) {
       this.colour = colour;
     } else {
       throw new Error(`colour must be one of ${JSON.stringify(ATTRIBUTES.COLOUR)}`);
     }
 
-    if (_.includes(ATTRIBUTES.NUMBER, number)) {
+    if (_.includes(ATTRIBUTES.number, number)) {
       this.number = number;
     } else {
       throw new Error(`number must be one of ${JSON.stringify(ATTRIBUTES.NUMBER)}`);
     }
 
-    if (_.includes(ATTRIBUTES.SHADING, shading)) {
+    if (_.includes(ATTRIBUTES.shading, shading)) {
       this.shading = shading;
     } else {
       throw new Error(`shading must be one of ${JSON.stringify(ATTRIBUTES.SHADING)}`);
@@ -62,7 +56,7 @@ class Card {
 
   toString() {
     let basicString = `${this.number} ${this.shading} ${this.colour} ${this.shape}`;
-    if (this.number === ATTRIBUTES.NUMBER[1] || this.number === ATTRIBUTES.NUMBER[2]) {
+    if (this.number === ATTRIBUTES.number[1] || this.number === ATTRIBUTES.number[2]) {
       basicString += 's';
     }
 
@@ -71,7 +65,8 @@ class Card {
 }
 
 module.exports = {
-  Card,
   ATTRIBUTES,
+  ATTR_NAMES,
+  Card,
   createRandomCard,
 };
