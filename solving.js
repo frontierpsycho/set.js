@@ -45,8 +45,41 @@ function extrapolateThird(card1, card2) {
   return new Card(cardObject.number, cardObject.shading, cardObject.colour, cardObject.shape);
 };
 
+function findAllSets(cards) {
+  // TODO start simple, refactor later
+  const sets = [];
+  const setsUniqueness = new Set();
+
+  _.forEach(cards, (card) => {
+    _.forEach(_.without(cards, card), (secondCard) => {
+      const extrapolatedThird = extrapolateThird(card, secondCard);
+
+      if (
+        _.find(
+          _.without(cards, card, secondCard), // search all _other_ cards, in case of duplicates
+          (prospectiveThird) => extrapolatedThird.toString() === prospectiveThird.toString())
+      ) {
+        // the extapolated third exists in the board, this is a set, check if we've already returned it
+        const potentiallyNewSet = Card.sortCards([card, secondCard, extrapolatedThird]);
+
+        // create deterministic string representation of set to test uniqueness
+        const sortedSetForUniqueness = _.join(_.map(potentiallyNewSet, (card) => card.toString()));
+
+        if (!setsUniqueness.has(sortedSetForUniqueness)) {
+          // set is new, add to result and setsUniqueness
+          sets.push(potentiallyNewSet);
+          setsUniqueness.add(sortedSetForUniqueness);
+        }
+      }
+    });
+  });
+
+  return sets;
+}
+
 module.exports = {
   testSet,
   testAttribute,
   extrapolateThird,
+  findAllSets,
 };

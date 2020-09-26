@@ -9,6 +9,15 @@ const ATTRIBUTES = {
   [ATTR_NAMES[3]]: ['oval', 'diamond', 'squiggle'],
 };
 
+function indexOfAttributeValueGenerator(attrName) {
+  return (card) => _.indexOf(ATTRIBUTES[attrName], card[attrName]);
+};
+
+const indexOfNumberValue = indexOfAttributeValueGenerator(ATTR_NAMES[0]);
+const indexOfShadingValue = indexOfAttributeValueGenerator(ATTR_NAMES[1]);
+const indexOfColourValue = indexOfAttributeValueGenerator(ATTR_NAMES[2]);
+const indexOfShapeValue = indexOfAttributeValueGenerator(ATTR_NAMES[3]);
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -52,6 +61,16 @@ class Card {
     } else {
       throw new Error(`shading must be one of ${JSON.stringify(ATTRIBUTES.SHADING)}`);
     }
+  }
+
+  static sortCards(cards) {
+    return _.sortBy(
+      cards,
+      indexOfNumberValue,
+      indexOfShadingValue,
+      indexOfColourValue,
+      indexOfShapeValue,
+    );
   }
 
   toString() {

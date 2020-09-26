@@ -6,10 +6,11 @@ const {
 } = require('./set.js');
 
 class Board {
-  constructor(board) {
-    this.board = board;
+  constructor(cards) {
+    this.cards = cards;
   }
 
+  // TODO this allows duplicates
   static createRandomBoard(size = 12) {
     return _.map(_.range(size), createRandomCard);
   }
